@@ -33,6 +33,12 @@ let productos = [
     },
 ]
 
+let productosStorage = localStorage.getItem("productos");
+if(productosStorage == null){
+    productosStorage = [];
+}
+
+
 //AQUÍ RECORREMOS CADA UNO DE LOS PRODUCTOS DENTRO DE ARRAY Y LOS CARGAMOS AL TEMPLATE.
 
 let template = "";
@@ -51,8 +57,8 @@ for (let index = 0; index < productos.length; index++) {
                               <p class="card-text">Precio final: $${producto.precio - producto.descuento}</p>
                             </div>
                             <div class="card-body">
-                              <a href="#" class="card-link btn btn-primary">Agregar al carro</a>
-                              <a href="#" class="card-link btn btn-success" data-id='${producto.id}'>Ver más</a>
+                              <a href="" class="card-link btn btn-primary btn-comprar" data-id='${producto.id}'>Agregar al carro</a>
+                              <a href="./producto.html?id=${producto.id}" class="card-link btn btn-success">Ver más</a>
                             </div>
                           </div>
                 </div>
@@ -64,6 +70,25 @@ for (let index = 0; index < productos.length; index++) {
 let contedorProductos = document.querySelector("#productos .contenedor-productos .row");
 
 contedorProductos.innerHTML = template;
+
+
+
+//capturar boton de compra
+
+let botonesComprar = document.querySelectorAll(".btn-comprar");
+
+let arrayBotones = [...botonesComprar];
+
+arrayBotones.forEach(boton => {
+    boton.addEventListener("click", function(event){
+        event.preventDefault();
+        console.log(event.target.dataset.id);
+        let idProducto = event.target.dataset.id;
+        productosStorage.push(idProducto);
+        localStorage.setItem("productos", productosStorage)
+
+    })
+})
 
 
 
